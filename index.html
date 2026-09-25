@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lawrence Ouma Osiro Jr. | 3D Developer Portfolio</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Three.js for 3D Background Canvas -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        darkBg: '#080c14',
+                        cardBg: 'rgba(15, 23, 42, 0.75)',
+                        accentPrimary: '#3b82f6',
+                        accentGlow: '#60a5fa',
+                        neonCyan: '#06b6d4',
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #080c14;
+            color: #f8fafc;
+            overflow-x: hidden;
+        }
+        #canvas-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+        .glass-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .glass-card:hover {
+            border-color: rgba(59, 130, 246, 0.5);
+            box-shadow: 0 0 25px rgba(59, 130, 246, 0.25);
+        }
+        .text-glow {
+            text-shadow: 0 0 15px rgba(59, 130, 246, 0.6);
+        }
+    </style>
+</head>
+<body class="font-sans antialiased selection:bg-blue-500 selection:text-white">
+
+    <!-- 3D Interactive WebGL Canvas -->
+    <div id="canvas-container"></div>
+
+    <!-- Navigation Header -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-card border-b border-slate-800/80 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <a href="#hero" class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                <span class="w-3 h-3 rounded-full bg-blue-500 animate-pulse"></span>
+                LAWRENCE <span class="text-blue-500">OSIRO</span>
+            </a>
+            <div class="hidden md:flex space-x-8 text-sm font-medium text-slate-300">
+                <a href="#about" class="hover:text-blue-400 transition-colors">About</a>
+                <a href="#skills" class="hover:text-blue-400 transition-colors">Skills</a>
+                <a href="#projects" class="hover:text-blue-400 transition-colors">Projects</a>
+                <a href="#experience" class="hover:text-blue-400 transition-colors">Experience</a>
+                <a href="#contact" class="hover:text-blue-400 transition-colors">Contact</a>
+            </div>
+            <a href="#contact" class="bg-blue-600 hover:bg-blue-500 text-white text-xs uppercase tracking-wider font-semibold px-4 py-2 rounded-lg transition-all shadow-lg shadow-blue-500/20">
+                Get In Touch
+            </a>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="min-h-screen flex items-center justify-center pt-24 pb-12 px-6 relative">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-7 space-y-6 text-center lg:text-left">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-blue-400 text-xs font-semibold uppercase tracking-wider">
+                    <i data-lucide="cpu" class="w-4 h-4"></i> Computer Scientist & AI Systems Specialist
+                </div>
+                <h1 class="text-4xl sm:text-6xl font-extrabold tracking-tight text-white">
+                    Architecting <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 via-cyan-400 to-indigo-500 text-glow">Intelligent Systems</span> & Next-Gen Software
+                </h1>
+                <p class="text-slate-400 text-lg max-w-2xl leading-relaxed">
+                    3rd Year Computer Science Scholar at Mama Ngina University (Majoring in AI & ML)[cite: 10] with 10+ years of operating systems experience[cite: 10]. Expert in full-stack architecture, machine learning inference engines, and low-level Linux administration[cite: 10].
+                </p>
+                <div class="flex flex-wrap items-center justify-center lg:justify-start gap-4 pt-4">
+                    <a href="#projects" class="bg-blue-600 hover:bg-blue-500 text-white font-medium px-6 py-3 rounded-xl transition-all shadow-lg shadow-blue-600/30 flex items-center gap-2">
+                        View Core Projects <i data-lucide="arrow-right" class="w-4 h-4"></i>
+                    </a>
+                    <a href="#contact" class="glass-card hover:bg-slate-800 text-slate-200 font-medium px-6 py-3 rounded-xl transition-all border border-slate-700 flex items-center gap-2">
+                        <i data-lucide="download" class="w-4 h-4"></i> Resume & Credentials
+                    </a>
+                </div>
+            </div>
+
+            <!-- Profile Picture 1 -->
+            <div class="lg:col-span-5 flex justify-center">
+                <div class="relative group">
+                    <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-blue-600 to-cyan-500 opacity-50 group-hover:opacity-100 transition duration-1000 blur-xl"></div>
+                    <div class="relative rounded-2xl overflow-hidden border-2 border-slate-700/80 glass-card p-2 w-72 sm:w-80">
+                        <img src="ResumePIC.jpeg" alt="Lawrence Ouma Osiro Jr." class="rounded-xl w-full h-auto object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="p-4 text-center">
+                            <h3 class="font-bold text-lg text-white">Lawrence Ouma Osiro Jr.</h3>
+                            <p class="text-xs text-blue-400 font-medium">Full-Stack & AI Systems Architect</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- About Section with Picture 2 -->
+    <section id="about" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            <div class="lg:col-span-5 order-2 lg:order-1 flex justify-center">
+                <div class="relative group">
+                    <div class="absolute -inset-1 rounded-3xl bg-gradient-to-r from-cyan-500 to-blue-600 opacity-40 group-hover:opacity-80 transition duration-1000 blur-lg"></div>
+                    <div class="relative rounded-2xl overflow-hidden border border-slate-700 glass-card p-2 w-72 sm:w-80">
+                        <img src="WhatsApp Image 2026-09-25 at 22.51.18.jpeg" alt="Lawrence working in lab environment" class="rounded-xl w-full h-auto object-cover transform group-hover:scale-105 transition duration-500">
+                        <div class="p-3 text-center">
+                            <p class="text-xs text-slate-400 italic">Hands-on Lab Research & Development</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="lg:col-span-7 order-1 lg:order-2 space-y-6">
+                <h2 class="text-3xl font-bold text-white flex items-center gap-3">
+                    <i data-lucide="terminal" class="text-blue-400 w-8 h-8"></i> About Me
+                </h2>
+                <p class="text-slate-300 leading-relaxed">
+                    I am a Computer Science scholar and practitioner with deep domain knowledge in theoretical CS, software systems engineering, and network fundamentals[cite: 10]. Combining 10+ years of operating systems experience across Linux and Windows environments[cite: 10], I bridges high-level AI concepts with efficient backend execution architectures.
+                </p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                    <div class="glass-card p-4 rounded-xl border-l-4 border-blue-500">
+                        <h4 class="font-semibold text-white text-sm">Institution</h4>
+                        <p class="text-xs text-slate-400">Mama Ngina University (3rd Year)[cite: 10]</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border-l-4 border-cyan-500">
+                        <h4 class="font-semibold text-white text-sm">Academic Major</h4>
+                        <p class="text-xs text-slate-400">AI & Machine Learning[cite: 10]</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border-l-4 border-indigo-500">
+                        <h4 class="font-semibold text-white text-sm">Certifications</h4>
+                        <p class="text-xs text-slate-400">Software Engineering & Web3 (Hashgraph)[cite: 10]</p>
+                    </div>
+                    <div class="glass-card p-4 rounded-xl border-l-4 border-emerald-500">
+                        <h4 class="font-semibold text-white text-sm">Location</h4>
+                        <p class="text-xs text-slate-400">Nairobi, Kenya[cite: 10]</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Technical Skills Section -->
+    <section id="skills" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 class="text-3xl font-bold text-white">Technical Ecosystem</h2>
+            <p class="text-slate-400">A comprehensive set of tools, languages, and frameworks engineered for production environments.</p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3 text-blue-400">
+                    <i data-lucide="code" class="w-6 h-6"></i>
+                    <h3 class="font-bold text-white text-lg">Languages</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">Python</span>
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">Java</span>
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">Kotlin</span>
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">JavaScript</span>
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">C/C++</span>
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">SQL</span>
+                    <span class="px-3 py-1 bg-slate-800 text-blue-300 text-xs rounded-lg font-mono">Assembly (8085)</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3 text-cyan-400">
+                    <i data-lucide="layers" class="w-6 h-6"></i>
+                    <h3 class="font-bold text-white text-lg">Frameworks & Web</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-lg font-mono">React</span>
+                    <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-lg font-mono">React Native</span>
+                    <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-lg font-mono">Flutter</span>
+                    <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-lg font-mono">Flask</span>
+                    <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-lg font-mono">Express.js</span>
+                    <span class="px-3 py-1 bg-slate-800 text-cyan-300 text-xs rounded-lg font-mono">Tailwind CSS</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3 text-indigo-400">
+                    <i data-lucide="database" class="w-6 h-6"></i>
+                    <h3 class="font-bold text-white text-lg">Databases & Cloud</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-slate-800 text-indigo-300 text-xs rounded-lg font-mono">MongoDB Atlas</span>
+                    <span class="px-3 py-1 bg-slate-800 text-indigo-300 text-xs rounded-lg font-mono">MariaDB</span>
+                    <span class="px-3 py-1 bg-slate-800 text-indigo-300 text-xs rounded-lg font-mono">MySQL</span>
+                    <span class="px-3 py-1 bg-slate-800 text-indigo-300 text-xs rounded-lg font-mono">SQLite</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3 text-emerald-400">
+                    <i data-lucide="brain-circuit" class="w-6 h-6"></i>
+                    <h3 class="font-bold text-white text-lg">AI & Machine Learning</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-slate-800 text-emerald-300 text-xs rounded-lg font-mono">Natural Language Processing</span>
+                    <span class="px-3 py-1 bg-slate-800 text-emerald-300 text-xs rounded-lg font-mono">Predictive Analytics</span>
+                    <span class="px-3 py-1 bg-slate-800 text-emerald-300 text-xs rounded-lg font-mono">AI Model Integration</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3 text-amber-400">
+                    <i data-lucide="server" class="w-6 h-6"></i>
+                    <h3 class="font-bold text-white text-lg">Systems & Infrastructure</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-slate-800 text-amber-300 text-xs rounded-lg font-mono">Linux Administration</span>
+                    <span class="px-3 py-1 bg-slate-800 text-amber-300 text-xs rounded-lg font-mono">Fedora / Ubuntu</span>
+                    <span class="px-3 py-1 bg-slate-800 text-amber-300 text-xs rounded-lg font-mono">Docker</span>
+                    <span class="px-3 py-1 bg-slate-800 text-amber-300 text-xs rounded-lg font-mono">KVM / VirtualBox</span>
+                    <span class="px-3 py-1 bg-slate-800 text-amber-300 text-xs rounded-lg font-mono">Shell Scripting</span>
+                </div>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl space-y-4">
+                <div class="flex items-center gap-3 text-rose-400">
+                    <i data-lucide="shield-check" class="w-6 h-6"></i>
+                    <h3 class="font-bold text-white text-lg">Web3 & Developer Tools</h3>
+                </div>
+                <div class="flex flex-wrap gap-2">
+                    <span class="px-3 py-1 bg-slate-800 text-rose-300 text-xs rounded-lg font-mono">Hedera Hashgraph</span>
+                    <span class="px-3 py-1 bg-slate-800 text-rose-300 text-xs rounded-lg font-mono">Smart Contracts</span>
+                    <span class="px-3 py-1 bg-slate-800 text-rose-300 text-xs rounded-lg font-mono">Git & Version Control</span>
+                    <span class="px-3 py-1 bg-slate-800 text-rose-300 text-xs rounded-lg font-mono">Postman</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Projects Showcase Section -->
+    <section id="projects" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="text-center max-w-3xl mx-auto mb-16 space-y-4">
+            <h2 class="text-3xl font-bold text-white">Featured Engineering Projects</h2>
+            <p class="text-slate-400">Selected work showcasing full-stack development, AI model integration, and cloud architecture.</p>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            
+            <!-- Project 1 -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex justify-between items-start">
+                    <span class="px-3 py-1 bg-blue-500/20 text-blue-400 text-xs font-semibold rounded-full border border-blue-500/30">AI & Mobile</span>
+                    <a href="https://github.com/Doclaw-Tech-X4" target="_blank" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                </div>
+                <h3 class="text-2xl font-bold text-white">KilimoChat - Intelligent Agricultural Platform</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Designed and deployed a cross-platform mobile app providing real-time crop disease diagnosis and market insights[cite: 10]. Integrated Natural Language Processing (NLP) backend models in Python Flask with MongoDB Atlas cloud database synchronization[cite: 10].
+                </p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">React Native</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Python (Flask)</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">NLP Inference</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">MongoDB Atlas</span>
+                </div>
+            </div>
+
+            <!-- Project 2 -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex justify-between items-start">
+                    <span class="px-3 py-1 bg-amber-500/20 text-amber-400 text-xs font-semibold rounded-full border border-amber-500/30">Systems & Linux</span>
+                    <a href="https://github.com/Doclaw-Tech-X4" target="_blank" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Systems Virtualization & Automation</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Configured and managed multi-OS virtualized environments (KVM, VirtualBox) to benchmark resource allocation, driver performance, and automated system administration via custom Bash shell scripts across Fedora and Ubuntu[cite: 10].
+                </p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Fedora / Ubuntu</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Bash Shell</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">VirtualBox / KVM</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Docker</span>
+                </div>
+            </div>
+
+            <!-- Project 3 -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex justify-between items-start">
+                    <span class="px-3 py-1 bg-cyan-500/20 text-cyan-400 text-xs font-semibold rounded-full border border-cyan-500/30">Cross-Platform</span>
+                    <a href="https://github.com/Doclaw-Tech-X4" target="_blank" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Mobile & Web Application Suites</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Engineered cross-platform client interfaces using Flutter/Dart and React alongside backend REST middleware in Node.js/Express with robust authentication and state management workflows.
+                </p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Flutter / Dart</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">React</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Express.js</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">REST APIs</span>
+                </div>
+            </div>
+
+            <!-- Project 4 -->
+            <div class="glass-card rounded-2xl p-6 sm:p-8 space-y-6">
+                <div class="flex justify-between items-start">
+                    <span class="px-3 py-1 bg-rose-500/20 text-rose-400 text-xs font-semibold rounded-full border border-rose-500/30">Web3 & DApps</span>
+                    <a href="https://github.com/Doclaw-Tech-X4" target="_blank" class="text-slate-400 hover:text-white transition-colors"><i data-lucide="github" class="w-5 h-5"></i></a>
+                </div>
+                <h3 class="text-2xl font-bold text-white">Decentralized Web3 Ledger Integration</h3>
+                <p class="text-slate-300 text-sm leading-relaxed">
+                    Constructed decentralized application prototypes using the Hedera Hashgraph SDKs for secure token distribution, smart contract interactions, and immutable audit trailing[cite: 10].
+                </p>
+                <div class="flex flex-wrap gap-2 pt-2">
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Hedera Hashgraph</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Smart Contracts</span>
+                    <span class="text-xs font-mono text-slate-400 bg-slate-800 px-2.5 py-1 rounded">Web3.js</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Experience & Education Section -->
+    <section id="experience" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            
+            <!-- Education -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i data-lucide="graduation-cap" class="text-blue-400 w-6 h-6"></i> Education & Credentials
+                </h2>
+                <div class="space-y-4">
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-blue-500">
+                        <span class="text-xs text-blue-400 font-semibold uppercase">3rd Year Student</span>
+                        <h3 class="text-lg font-bold text-white mt-1">B.Sc. in Computer Science</h3>
+                        <p class="text-sm text-slate-300">Mama Ngina University</p>
+                        <p class="text-xs text-slate-400 mt-2">Specializing in AI & Machine Learning algorithms, database normalization, automata theory, and microprocessor architecture[cite: 10].</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-cyan-500">
+                        <span class="text-xs text-cyan-400 font-semibold uppercase">Certification</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Software Engineering Certificate</h3>
+                        <p class="text-sm text-slate-300">Software Dev Institute</p>
+                        <p class="text-xs text-slate-400 mt-2">Core full-stack web architectures, software design patterns, and database systems engineering[cite: 10].</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-indigo-500">
+                        <span class="text-xs text-indigo-400 font-semibold uppercase">Certification</span>
+                        <h3 class="text-lg font-bold text-white mt-1">Web3 Developer Certification</h3>
+                        <p class="text-sm text-slate-300">Hashgraph Developers</p>
+                        <p class="text-xs text-slate-400 mt-2">Distributed ledger protocols, smart contract execution, and decentralized application architecture[cite: 10].</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Leadership & Summits -->
+            <div class="space-y-6">
+                <h2 class="text-2xl font-bold text-white flex items-center gap-3">
+                    <i data-lucide="award" class="text-blue-400 w-6 h-6"></i> Leadership & Technical Engagement
+                </h2>
+                <div class="space-y-4">
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-emerald-500">
+                        <h3 class="text-lg font-bold text-white">Technical Lead</h3>
+                        <p class="text-sm text-slate-300">Computing Research & Innovation Club (CIRC)</p>
+                        <p class="text-xs text-slate-400 mt-2">Organize peer workshops, manage technology tracks, and lead discussions on software quality and AI development[cite: 10].</p>
+                    </div>
+
+                    <div class="glass-card p-6 rounded-2xl border-l-4 border-amber-500">
+                        <h3 class="text-lg font-bold text-white">Industry Tech Summits</h3>
+                        <p class="text-sm text-slate-300">Nairobi Tech Conferences</p>
+                        <p class="text-xs text-slate-400 mt-2">Active participant in DevFest Nairobi, Safaricom Decode Engineering Summit, and the Cardano Africa Tech Summit[cite: 10].</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-20 px-6 max-w-7xl mx-auto">
+        <div class="glass-card rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+                
+                <div class="lg:col-span-6 space-y-6">
+                    <h2 class="text-3xl font-bold text-white">Get In Touch</h2>
+                    <p class="text-slate-300">
+                        Available for Software Engineering, Artificial Intelligence, and Systems Administration opportunities.
+                    </p>
+                    <div class="space-y-4 text-sm">
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400"><i data-lucide="mail" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-400">Email</p>
+                                <a href="mailto:doclaw0@gmail.com" class="font-semibold text-white hover:text-blue-400 transition-colors">doclaw0@gmail.com</a>[cite: 10]
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400"><i data-lucide="phone" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-400">Phone</p>
+                                <a href="tel:+254743914347" class="font-semibold text-white hover:text-blue-400 transition-colors">+254 743 914 347</a>[cite: 10]
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 text-slate-300">
+                            <div class="p-3 bg-blue-500/10 border border-blue-500/20 rounded-xl text-blue-400"><i data-lucide="map-pin" class="w-5 h-5"></i></div>
+                            <div>
+                                <p class="text-xs text-slate-400">Location</p>
+                                <p class="font-semibold text-white">Nairobi, Kenya</p>[cite: 10]
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex gap-4 pt-4">
+                        <a href="https://github.com/Doclaw-Tech-X4" target="_blank" class="p-3 glass-card rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all"><i data-lucide="github" class="w-5 h-5"></i></a>[cite: 10]
+                        <a href="https://www.linkedin.com/in/lawrence-ouma-1a8a77349" target="_blank" class="p-3 glass-card rounded-xl text-slate-300 hover:text-white hover:border-blue-500 transition-all"><i data-lucide="linkedin" class="w-5 h-5"></i></a>[cite: 10]
+                    </div>
+                </div>
+
+                <div class="lg:col-span-6 glass-card p-6 rounded-2xl border border-slate-700 space-y-4">
+                    <h3 class="text-lg font-bold text-white">Send A Direct Message</h3>
+                    <form onsubmit="event.preventDefault(); alert('Message sent successfully!');" class="space-y-4">
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Your Name</label>
+                            <input type="text" required placeholder="John Doe" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Your Email</label>
+                            <input type="email" required placeholder="john@example.com" class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors">
+                        </div>
+                        <div>
+                            <label class="text-xs text-slate-400 font-medium">Message</label>
+                            <textarea rows="4" required placeholder="Let's discuss project opportunities..." class="w-full bg-slate-900/80 border border-slate-700 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none focus:border-blue-500 transition-colors"></textarea>
+                        </div>
+                        <button type="submit" class="w-full bg-blue-600 hover:bg-blue-500 text-white font-semibold py-3 rounded-xl transition-all shadow-lg shadow-blue-600/30">
+                            Submit Message
+                        </button>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-8 px-6 text-center text-xs text-slate-500 border-t border-slate-800/80">
+        <p>© 2026 Lawrence Ouma Osiro Jr. Built with Three.js & Tailwind CSS.</p>
+    </footer>
+
+    <!-- Interactive 3D WebGL Script -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Three.js Interactive Particle Field Background
+        const container = document.getElementById('canvas-container');
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        container.appendChild(renderer.domElement);
+
+        // Create 3D Particle Nodes
+        const particleCount = 200;
+        const geometry = new THREE.BufferGeometry();
+        const positions = new Float32Array(particleCount * 3);
+        const colors = new Float32Array(particleCount * 3);
+
+        const color1 = new THREE.Color(0x3b82f6);
+        const color2 = new THREE.Color(0x06b6d4);
+
+        for (let i = 0; i < particleCount * 3; i += 3) {
+            positions[i] = (Math.random() - 0.5) * 15;
+            positions[i + 1] = (Math.random() - 0.5) * 15;
+            positions[i + 2] = (Math.random() - 0.5) * 15;
+
+            const mixedColor = color1.clone().lerp(color2, Math.random());
+            colors[i] = mixedColor.r;
+            colors[i + 1] = mixedColor.g;
+            colors[i + 2] = mixedColor.b;
+        }
+
+        geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+        geometry.setAttribute('color', new THREE.BufferAttribute(colors, 3));
+
+        const material = new THREE.PointsMaterial({
+            size: 0.08,
+            vertexColors: true,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const particles = new THREE.Points(geometry, material);
+        scene.add(particles);
+
+        // Add Floating Geometric Cube Wireframe
+        const cubeGeo = new THREE.IcosahedronGeometry(2, 1);
+        const cubeMat = new THREE.MeshBasicMaterial({
+            color: 0x3b82f6,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.15
+        });
+        const wireMesh = new THREE.Mesh(cubeGeo, cubeMat);
+        scene.add(wireMesh);
+
+        camera.position.z = 5;
+
+        // Mouse Parallax Interaction
+        let mouseX = 0;
+        let mouseY = 0;
+        window.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth - 0.5) * 0.5;
+            mouseY = (event.clientY / window.innerHeight - 0.5) * 0.5;
+        });
+
+        // Animation Loop
+        function animate() {
+            requestAnimationFrame(animate);
+
+            particles.rotation.y += 0.001;
+            particles.rotation.x += 0.0005;
+
+            wireMesh.rotation.x += 0.002;
+            wireMesh.rotation.y += 0.003;
+
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            renderer.render(scene, camera);
+        }
+        animate();
+
+        // Responsive Resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
+</body>
+</html>
